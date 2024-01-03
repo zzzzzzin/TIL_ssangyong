@@ -538,4 +538,536 @@ System.out.println(100); // 100의 자료형이 뭔지? integer
     - 값형은 0으로 초기화하고 참조형은 null로 초기화 가능      
     - 값형 null 불가능 (변수 속의 값이 반드시 존재해야 함)
 ---
-## 연산자, 진법, Escape Sequence, 콘솔 입출력, 형식문자, 에러, 형변환
+### 연산자 주의사항
+```java
+//연산자
+int a = 10;
+int b =  20;
+System.out.println(a+b);  //결과: 
+```
+ +는 이항연산자: 피연산자가 2개 필요(윗 코드:a,b)
+ 컴퓨터는 피연산자가 숫자면 연산, 문자면 연결
+ 연산자 우선순위(수학의 연산자 우선순위와 비슷)
+ 연산자 방향: 왼쪽부터 연산
+```java
+//연산자 우선순위
+System.out.println(a + "+" + b + "=" + a + b);   //결과: 
+System.out.println(a + "+" + b + "=" + (a + b)); //결과:
+```
+```java
+//주민번호 입출력
+int jumin1 = 950105;  
+System.out.println("주민번호: "+ jumin1);  //결과: 
+  
+int jumin2 = 030711; // error: 8진수로 인식  
+System.out.println("주민번호: "+ jumin2);  //결과:
+```
+```java
+//진법별로 10을 작성
+System.out.println(10); 	//10진수
+System.out.println(010);	//8진수
+System.out.println(0x10);	//16진수
+System.out.println(0b10);	//2진수
+```
+```java
+// 실수 리터럴 표기법
+double d1 = 1200;
+double d2 = 1.2e+3;
+
+System.out.println(d1); //결과:
+System.out.println(d2);	//결과:
+	
+d1 = 0.012;
+d2 = 1.2e-2;
+
+System.out.println(d1);	//결과:
+System.out.println(d2);	//결과:
+```	
+---
+### Escape Sequence
+특수 문자가 아닌 Escape Sequence로 표현할 것
+컴파일러가 번역할 때, 소스의 문자를 그대로 출력x, 미리 약속된 표현으로 바꿔서 출력하는 요소
+
+1.\n
+new line, line feed (개행 문자, 엔터)
+컴파일러는 한 글자로 인식
+```java
+char c1 = '\n'; //결과: 
+//\n은 한 글자임으로 char로 써도 error 안남
+```
+```java	
+// 요구사항] "안녕하세요. 홍길동입니다." 출력
+String msg = "안녕하세요. 홍길동입니다";
+System.out.println(msg);
+
+//수정사항] "안녕하세요"와 "홍길동입니다."를 다른 줄에 출력 (중간에 엔터)
+> String msg ="안녕하세요." 
+>             "홍길동입니다"
+System.out.println(msg);
+//error: 문자열 리터럴내에는 엔터 작성 불가능 > 반드시 한줄로 > \n을 사용
+
+//올바른 작성법
+String msg2 = "안녕하세요. \n홍길동입니다";
+System.out.println(msg2);
+// 결과: 안녕하세요.
+//       홍길동입니다.
+		
+//빈줄입력
+System.out.println();
+```
+		
+2.\r
+carriage rerutn
+캐럿(문자를 넣는 곳)의 위치를 현재 라인의 맨 앞으로 이동
+키보드의 Home키 역할
+msg = "안녕하세요. \r홍길동입니다";
+```java
+System.out.println(msg);
+// 결과: 홍길동세요 > 이클립스는 제대로 이해못해서 엔터 역할
+```
+- 운영체제의 엔터
+윈도우 > \r\n
+맥OS > \r
+리눅스 > \n
+```java
+System.out.println("하나\r\n둘");	//정석 (권장)
+System.out.println("하나\n둘");	    //잘 사용
+```
+3.\t
+탭문자, tab > 현재 위치에서 가장 가까운 tab으로 이동 > 열맞춤 목적
+가독성을 위해 \t 사용 (탭 몇번했는지 알기 쉽게)
+```java
+msg = "하나	둘		셋";
+System.out.println(msg); 
+//결과: 
+		
+msg = "하나\t둘\t\t셋";
+System.out.println(msg);
+//결과:
+```		
+4.\b
+backspace > 커서를 앞으로 옮김
+```java
+msg="홍길동\b입니다.";
+System.out.println(msg);	//특수문자 나옴 > 이클립스는 \b 실행 불가능
+// 정상 결과값: 홍길입니다.
+```			
+5.\ ", \ ', \ \ (사이의 띄어쓰기는 제거 후 작성)
+이미 역할이 있는 문자를 역할이 없게 만드는 작업
+```java
+//요구사항] 화면에 '홍길동:"안녕하세요"' 출력
+msg = "홍길동: \"안녕하세요.\"";	//컴파일러는 "을 문자열인지 출력내용인지 구분 불가능
+System.out.println(msg);
+```
+```java		
+//요구사항] 수업 폴더의 경로 출력
+//C:\class\code\java
+System.out.println("C:\class\code\java");
+Invalid escape sequence
+valid ones > \b  \t  \n  \f  \r  \"  \'  \\
+System.out.println("C:\\class\\code\\java");
+```		
+---
+### 콘솔 입출력, Console Input Output(IO)
+ >기본 입력 장치: 키보드
+ 기본 출력 장치: 모니터
+		 
+- 콘솔 출력
+클래스(System).필드(out).메서드(println)(값(인자));
+  1. System.out.println(값);
+      -println 메서드
+	   -print line > 값을 행 단위로 출력 > 값을 출력한 뒤 엔터
+	2.  System.out.print(값);
+	-print 메서드	> 값을 출력하고 엔터를 안 침
+	3. System.out.printf(값);
+		   - printf 메서드
+		   - print format > 출력 형식을 제공
+		   - String.format() 메서드와 동일
+      ```java
+      //성적표 출력하기
+      System.out.println(100); 
+      System.out.println(200); 
+      System.out.println(300); 
+
+      System.out.print(100); 
+      System.out.print(200); 
+      System.out.print(300); 
+		
+      String name1="홍길동";
+      int kor1 = 100;
+      int eng1 = 90;
+      int math1 = 90;
+
+      String name2="아무개";
+      int kor2 = 95;
+      int eng2 = 98;
+      int math2 = 87;
+      System.out.println();
+
+      //위 성적표를 좀 더 보기좋게 열 맞추기
+      System.out.println("====================="); 
+      System.out.println("	성적표"); 
+      System.out.println("====================="); 
+      System.out.println("[이름]\t[국어]\t[영어]\t[수학]"); 
+      System.out.println("-------------------------");
+
+      //\r, \t 사용
+      System.out.println(name1);
+      System.out.println("\t");
+      System.out.println(kor1 + "\t");
+      System.out.println(eng1 + "\t");
+      System.out.println(math1 + "\r\t");
+
+      System.out.println(name2 + "\t" + kor2 + "\t" + eng2 + "\t"+ math2);
+
+      //뭘 쓴건지 모르겠듬... 확인 필요	
+      System.out.println();
+      System.out.println();
+      System.out.println();
+``` ```
+
+printf()
+형식 문자 (PlaceHolder) 제공
+가독성 향상(***)\
+>%s > String
+%d > Decimal(정수) > byte, short, int, long
+%f > Float(실수) > float, double
+%c > Char
+%b > Boolean
+```java
+//요구사항] "안녕하세요. 홍길동님" 문장 출력
+String name = "홍길동"; 
+System.out.println("안녕하세요. 홍길동님");
+
+//name 변수에 사용자가 키보드로 입력한 이름
+System.out.println("안녕하세요. "+name+"님");	// 배웠던 걸로 활용
+System.out.printf("안녕하세요. %s님", name);	// printf() 활용
+		
+System.out.println("\n");
+
+//요구사항 "안녕하세요. 홍길동님. 안녕히가세요. 홍길동님"
+System.out.println("안녕하세요 "+name+"님. 안녕히가세요 "+name+"님.");
+System.out.printf("안녕하세요 %s님. 안녕히가세요 %s님.", name,name);	//printf()
+System.out.println("\n");
+		
+System.out.printf("문자열: %s\n", "문자열");
+System.out.printf("정수: %d\n", 100);
+System.out.printf("실수: %f\n", 3.14);
+System.out.printf("문자: %c\n", 'A');
+System.out.printf("논리: %b\n", true);
+System.out.println("\n");
+```
+- 콘솔 입력  
+  입력 - 콘솔 입력 한번 더 읽기  
+  
+1. System.in.read()  
+-1문자만 입력 가능 (1byte씩 읽기)  
+-문자 코드값을 반환  
+-한글 입력 불가능 (2byte 문자 미지원, ASCII 문자만 지원)   
+
+2. BufferedReade 클래스  
+  
+3. Scanner 클래스 
+ ```java
+//요구사항] 사용자에게 문자 1개를 입력 > 입력값을 화면에 출력  
+//1. 라벨 출력  
+//2. 문자 입력  
+//3. 문자를 화면에 출력  
+  
+System.out.print("문자 입력: ");  
+  
+//사용자로부터 키보드 입력을 받아 입력한 문자를 돌려준다.  
+//현재 상태: 사용자의 키 입력을 대기 > 블럭 걸렸다  
+//사용자 입력(엔터까지) 후, 대기 상태 해제  
+int code = System.in.read(); //키보드로 입력한 값을 읽음으로 System.in.read()의 역할 끝  
+//a입력 > int code = a  
+  
+System.out.println("출력: " +code);  
+System.out.printf("출력: %d\n",code);  
+System.out.printf("출력: %c\n",code); //입력한 문자 한개를 그대로 출력  
+  
+code = System.in.read(); //위 코드와 합쳐 총 2문자 읽음 가능  
+  
+System.out.printf("출력: %d\n",code);  
+System.out.printf("출력: %c\n",code);  
+// 여기서 문자 1개만 입력 > 이상함(중간에 빈 곳이 있음)  
+// 이유: 키보드에서 입력한 값은 버퍼에 저장되고 read를 만나는 순간 프로그램이 입력값을 연산하고 입력된 값은 삭제됨  
+// 엔터까지 버퍼로 저장됨. 엔터는 \t\n. \t는 13, \n은 10		
+```
+---
+### 형식 문자 확장 기능
+1. %숫자d, %숫자s, %숫자f, %숫자c, %숫자b
+숫자는 정수만 가능
+출력할 내용의 너비 지정 (내용물과 상관없이 너비 확보)
+탭문자처럼 열을 맞추기 위한 기능
+숫자가 양수면 우측 정렬, 음수는 좌측 정렬
+```java
+int num =123;
+System.out.printf("[%d]\n", num);
+System.out.printf("[%10d]\n", num);
+System.out.printf("[%-10d]\n", num);
+System.out.println();
+```
+		
+2. %.숫자f
+		소수점 이하 자릿수 지정
+   ```java		
+	   	double num2 = 3.14;
+		
+		System.out.println(num2);
+		System.out.printf("%f\n", num2);
+		System.out.printf("%.2f\n", num2);
+		System.out.printf("%.1f\n", num2);
+		System.out.printf("%.0f\n", num2);
+		System.out.printf("%.3f\n", 3.4567);//3.456아니라 3.457임 > 항상 확인 후 작업
+		System.out.println();
+```	```
+
+3. %,d와 %,f
+   자릿수 표기(천단위)
+
+   ```java
+   int price = 1234567;
+   System.out.printf("금액: %d원\n", price);
+   System.out.printf("금액: %,d원\n", price);
+		
+		
+	//천단위 + 소수이하 + 출력너비
+	//요구사항] 천단위 + 소수이하 둘째자리 + 출력너비 20자리에 우측정력
+	 double num3 = 1234567.7890123; 
+	 
+	 System.out.printf("[%f]\n", num3);
+	 System.out.printf("[%,f]\n", num3);
+	 //System.out.printf("[%,.f]\n", num3); error: 소숫점 자리수를 지정하지 않음
+	 System.out.printf("[%,.2f]\n", num3);
+	 System.out.printf("[%,20.2f]\n", num3);
+	 //[Obsolete Methods on the Stack] contains obsolete methods > 디버그 모드 해제하면 해결
+		 
+		
+	//메뉴판 출력 > 열 정렬 > 탭 문자 + %10d 혼합
+	System.out.println("=========================");
+	System.out.println("음료 가격");
+	System.out.println("=========================");
+	System.out.printf("콜라: %d\n", 2500);
+	System.out.printf("스무디: %d\n", 3500);
+	System.out.printf("사이다: %d\n", 500);
+	System.out.printf("아메리카노: %d\n", 15000);
+	
+	//가독성 좋게 변경 > 열 맞춤 + 너비(가격) 맞춤
+	System.out.println("=========================");
+	System.out.println("\t음료 가격 (단위:원)");			//단위 반드시 존재해야 함
+	System.out.println("=========================");
+	System.out.printf("콜라: \t\t%,6d\n", 2500);
+	System.out.printf("스무디: \t\t%,6d\n", 3500);
+	System.out.printf("사이다: \t\t%,6d\n", 500);
+	System.out.printf("아메리카노: \t%,6d\n", 15000);
+	```
+	---
+	### BufferedReader 클래스
+	1. 유니코드 입력 가능(한글 입력 가능)
+	2. 문장을 입력 가능
+
+>BufferedReader를 사용하기 위해서는 도구 선언 필요> 클래스를 import
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.*; > *(와일드카드_모든 클래스) 이것도 가능
+ctrl + shift + o > 도구 선언 단축키
+       
+   ```java
+	//기본 문법
+	BufferedReader reader = new BufferedReader (new InputStreamReader(System.in)); 
+	//자료형,class   변수
+	
+	// 요구사항] 사용자로부터 문자 1개를 입력받아 화면에 출력	
+    System.out.print("입력: ");  
+    int code = reader.read();  
+    System.out.println(code);
+	
+	//콘솔로부터 키보드 값을 입력받을 수 있는 도구  
+    System.in.read  
+
+	System.out.print("문자 입력: ");  
+   
+	int code = reader.read();  
+   
+	System.out.println(code);  
+	System.out.printf("%c\n",code);  
+```
+		
+>암기해야 함
+A(65) ~ Z(90)
+a(97) ~ z(122)
+0(48) ~ 9(57)
+숫자 1은 0000_0001, 문자 1은 0011_0001
+\r(13)
+\n(10)
+스페이스(32)
+탭(9)
+한글 완성형 > 가 ~ 힣
+
+- JDK,JRE 차이점
+ JDK = JRE + Java Development Tools > 프로그램 개발
+ JRE (Java Runtime Environment) > 프로그램 실행
+ Java Development Tools > 프로그램 생성
+run하면 기존 프로그램에 덮어서 새로운 프로그램이 실행됨 > 메모리 차지
+ 콘솔창 우측 상단의 x버튼 > 빨간ㅁ버튼 >>
+
+  ```java		
+  //이름 입력 (여러글자 가능)
+  System.out.println("이름: ");
+  String name = reader.readLine();	//입력된 라인 전체를 읽기
+  System.out.printf("안녕. %s\n", name);
+
+  //나이 입력
+  System.out.println("나이: ");
+  String age = reader.readLine();	//자료형 int 불가능 > readLine()은 문자열로 고정되어 있기 때문
+  								//이때의 나이값(숫자)는 숫자가 아닌 '숫자'인 문자열
+  System.out.printf("%s님의 나이는 %s살입니다.\n", name, age);
+		
+  //요구사항] 사용자로부터 2개의 숫자를 입력받아 두 수를 더하시오
+  System.out.print("첫번째 숫자: ");
+  String input1 = reader.readLine();
+		
+  System.out.print("두번째 숫자: ");
+  String input2 = reader.readLine();
+		
+  System.out.printf(input1 +"\n"+ input2);		//위의 이름,나이 입력 후에 숫자를 입력하는 과정 필요 > 위에것을 주석하면 해결
+  System.out.println("\n");
+  ```
+- 문자열 > (변환) > 숫자
+Integer.parseInt()
+Byte.parseByte()
+Short.parseShort()
+Long.parseLong()
+Float.parseFloat()
+Double.parseDouble()
+Boolean.parseBoolean()
+
+- 자바는 모든 입력 값을 문자열
+ 
+ ```java  
+ int num1 = Integer.parseInt(input1);	//문자열>숫자  
+ int num2 = Integer.parseInt(input2);	//문자열>숫자  
+ System.out.println(num1 + num2);		//위의 이름,나이 입력 후에 숫자를 입력하는 과정 필요 > 위에것을 주석하면 해결  
+```
+
+```java
+//실수
+double num1 = Double.parseDouble(input1);
+double num2 = Double.parseDouble(input2);
+System.out.println(num1 + num2);
+```
+---
+### Error
+```java
+int a = 10;                        //사용자 입력한 숫자라고 가정 > 10대신 0이 들어가면 오류
+System.out.println(100/a);
+//단, 정수/정수일 때 재수가 0이 될 수 없음
+```	
+에러, Error 
+: 오류, 버그(Bug), 예외(Exception) 등
+			
+	1. 컴파일 에러
+				- 컴파일 작업 중에 발생하는 에러
+				- 컴파일러가 번역하다가 에러 발견 > 문법이 틀려서
+				- 에러 발생 > 컴파일 작업 중단 > 프로그램 생성 불가
+				- 반드시 해결해야 함 
+				- 난이도 가장 낮음 > 컴파일러가 알려줌 > 에러
+				- 대부분 오타 > 이클립스의 빨간 밑줄
+				
+	2. 런타인 에러
+				- 런타임 > 실행중
+				- 컴파일 작업 중에는 없었는데, 실행 중에 발생하는 에러
+				- 문법에는 오류 없음, 다른 원인으로 발생하는 에러
+				- 예외 (Exception)
+				- 난이도 중간 > 발견 여부 랜덤
+			
+	3. 논리 에러
+				- 컴파일 성공 + 실행 성공 but, 결과 이상함
+				- 발견이 매우 어려움 > 애초에 안 내려고 노력하기
+---
+### ==형 변환==
+-Promotion, Casting
+-하나의 자료형을 다른 자료형으로 변환하는 작업
+-코드 작성을 유연하게
+-boolean 제외
+-int > double
+-float > short
+   1. 암시적 형 변환(자동 형 변환), Promotion
+				- 큰 형 = 작은 형
+				- 100% 안전 > 생략 가능
+			
+	2. 명시적 형 변환(강제 형 변환), Casting
+				- 작은 형 = 큰 형 
+				- 경우에 따라 다름
+- 형 변환 방법
+-`(변환할 자료형)변환할 변수명;`
+-*==LValue자료형 = RValue 자료형==*
+```java
+//short = Byte
+//s1 = b1;
+//Short = Short 
+byte b1;
+b1 =10;
+short s1;
+
+s1 = (short)b1;  //에러 아닌 이유: short에 short를 넣음
+
+s1 = b1;
+System.out.println(s1);
+---
+byte b2;
+short s2;
+
+s2 = 128; //원본
+
+//Byte(1) = Short(2)
+//작은형 = 큰형		
+//b2 = s2		     //error> 형변환 필요
+
+b2 = (byte)s2;	//큰 형의 값이 작은 형의 값보다 클 때는 무조건 형변환 작성
+```
+```java
+//기업 은행 계좌
+int m1;
+long m2 = 300000000L;
+		
+//계좌 이체 > m2 돈을 m1으로
+m1 = (int)m2;
+System.out.printf("계좌이체 결과: %,d원\n", m1);
+```
+>큰형 = 작은형
+			- long = int
+			- long = short
+			- long = byte
+			- int = short
+			- int = byte
+			- short = byte
+			작은형 = 큰형
+			 - byte = long
+			 - byte = short
+			 - byte = int
+			 - short = long
+			 - short = int
+			 - int = long
+
+- 정수형 리터럴은 int, 실수형 리터럴은 double
+byte = int
+작은형(1) = 큰형(4)
+명시적 형변환
+   ```java
+  byte  a1  = 10;	//명시적 형변환
+  short a2  = 10;	//명시적 형변환
+  int   a3  = 10;	//명시적 형변환
+  long  a4  = 10;	//암시적 형변환(생략 가능)
+```	```	
+- 작은형(4) = 큰형(8)
+명시적 형변환
+   ```java
+   loat f1 = 3.14F;
+   float f2 = (float)3.14;
+	
+  double d1 = 3.14F;
+``` `
+
+`정수 > 정수 실수 > 실수 실수 > 정수 정수 > 실수`
