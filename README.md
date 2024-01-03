@@ -1,7 +1,7 @@
 # TIL_ssangyong
 ### 국비지원학원 수업 복습 기록 2023.12.29 ~ 2024.6.17
 
-선생님 필기자료: http://192.168.10.30:8011/ 
+선생님 필기자료: http://192.168.10.30:8011/  
 과제: http://pinnpublic.dothome.co.kr/
 ---
 
@@ -13,9 +13,9 @@
 [2일차_Escape_Sequence](#Escape_Sequence)  
 [2일차_콘솔_입출력](#콘솔_입출력)  
 [2일차_형식_문자_확장_기능](#형식 문자 확장 기능)  
-[2일차 BufferedReader 클래스](# BufferedReader 클래스)  
+[2일차_BufferedReader_클래스](#BufferedReader_클래스)  
 [2일차_Error](#Error)  
-[2일차 형 변환](#형 변환)  
+[2일차_형_변환](#형_변환)  
 ---
 ### 자료형
 
