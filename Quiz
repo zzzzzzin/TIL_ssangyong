@@ -2,22 +2,38 @@
 
 # Q002
 ```java
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
-public class Main {
-    public static void main(String[]args) {
-     
-        Scanner input = new Scanner(System.in);
+public class Q002 {
 
-        System.out.print("첫번째 수: ");
-        System.out.print("두번째 수: ");
-        
-        int a = input.nextInt();
-        int b = input.nextInt();
+	public static void main(String[] args) throws IOException {
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.println("첫번째수: ");
+		String input1 = reader.readLine();
+		int a = Integer.parseInt(reader.readLine());
 
-        System.out.printf("%,d + %,d = %.1f\n", a, b, a+b);
+		System.out.println("두번째수: ");
+		String input2 = reader.readLine();
+		int b = Integer.parseInt(reader.readLine());
+		
+		double sum = 0;
+		double sub = 0;
+		double multiply = 0;
+		double devide = 0;
+		double remain = 0;
+		
+		System.out.printf("%,d + %,d = %.1f\n", a, b, sum);
+		System.out.printf("%,d - %,d = %.1f\n", a, b, sub);
+		System.out.printf("%,d * %,d = %.1f\n", a, b, multiply);
+		System.out.printf("%,d / %,d = %.1f\n", a, b, devide);
+		System.out.printf("%,d %% %,d = %.1f\n", a, b, remain);
+		
+		//error: java.lang.NumberFormatException > 숫자형으로 변경시 문자열 포함됨 > 문자 제거로 해결
+	}
 
-   
-    }
 }
+
 ```
