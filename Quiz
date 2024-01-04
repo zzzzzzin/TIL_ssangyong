@@ -11,29 +11,189 @@ public class Q002 {
 	public static void main(String[] args) throws IOException {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		
+		int a = 0;
+		int b = 0;
+		int sum = 0;
+		int sub = 0;
+		int multiply = 0;
+		double devide = 0;
+		int remain = 0;
+		
 		System.out.println("첫번째수: ");
-		String input1 = reader.readLine();
-		int a = Integer.parseInt(reader.readLine());
+		a = Integer.parseInt(reader.readLine());
 
 		System.out.println("두번째수: ");
-		String input2 = reader.readLine();
-		int b = Integer.parseInt(reader.readLine());
+		b = Integer.parseInt(reader.readLine());
 		
-		double sum = 0;
-		double sub = 0;
-		double multiply = 0;
-		double devide = 0;
-		double remain = 0;
+		sum = a+b;
+		sub = a-b;
+		multiply = a*b;
+		devide = a/b;
+		remain = a%b;
 		
-		System.out.printf("%,d + %,d = %.1f\n", a, b, sum);
-		System.out.printf("%,d - %,d = %.1f\n", a, b, sub);
-		System.out.printf("%,d * %,d = %.1f\n", a, b, multiply);
+		System.out.printf("%,d + %,d = %d\n", a, b, sum);
+		System.out.printf("%,d - %,d = %d\n", a, b, sub);
+		System.out.printf("%,d * %,d = %d\n", a, b, multiply);
 		System.out.printf("%,d / %,d = %.1f\n", a, b, devide);
-		System.out.printf("%,d %% %,d = %.1f\n", a, b, remain);
-		
-		//error: java.lang.NumberFormatException > 숫자형으로 변경시 문자열 포함됨 > 문자 제거로 해결
+		System.out.printf("%,d %% %,d = %d\n", a, b, remain);
 	}
+}
+```
+# Q003
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Q003 {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		int width = 0;
+		int length = 0;
+		int area= 0;
+		int circumference = 0;
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.print("너비: ");
+		width = Integer.parseInt(reader.readLine());
+		
+		System.out.print("높이: ");
+		length = Integer.parseInt(reader.readLine());
+		
+		System.out.printf("사각형의 넓이는 %dcm²입니다.\n", width*length);
+		System.out.printf("사각형의 둘레는 %dcm입니다.\n", width*2 + length*2);
+		
+	}//main
+}
+```
+# Q004
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Q004 {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		double celsius = 0.0; 
+		double fahrenheit = 0.0;
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.print("섭씨: ");
+		celsius = Long.parseLong(reader.readLine());
+		
+		fahrenheit = celsius*1.8 + 32;
+		
+		System.out.printf("섭씨 %.1f는 화씨 %.1f입니다.", celsius, fahrenheit);
+		
+		// error: java.lang.NumberFormatException > 숫자 형식 오류
+		
+	}//main
+
+}
+```
+# Q005
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Q005 {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+		int pedal = 0;
+		double result = 0;
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.print("사용자가 페달을 밟은 횟수: ");
+		pedal = Integer.parseInt(reader.readLine());
+		
+		result = pedal*26*3.14*0.0254;
+		
+		System.out.printf("사용자가 총 %,d회 페달을 밟아 자전거가 총 %,.3fm를 달렸습니다.", pedal, result);
+	
+		//결과값이 자꾸 틀림: 원주률 계산x > 원주 = 지름* 3.14		
+		
+	}//main
+}
+---
+# Q006
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Q006 {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		int income = 0;
+		double afterTax = 0;
+		double tax = 0.0;
+		
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		
+		System.out.print("한달 수입 금액(원): ");
+		income = Integer.parseInt(reader.readLine());
+		
+		tax = income * 0.033;
+		afterTax = income - tax;
+		
+		System.out.printf("세후 금액\t(원): \t%,.0f원\n세금\t(원): \t%,.0f원", afterTax, tax);
+		
+	}//main
+
+}
+```
+# Q007
+```java
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Scanner;
+
+public class Code01_01 {
+
+	public static void main(String[] args) throws NumberFormatException, IOException {
+		
+//		요구사항
+//		영문 소문자를 1글자 입력받은 후 대문자로 변환해서 출력하시오.
+//
+//		조건..
+//		대문자와 소문자의 문자 코드값의 관계
+//		
+//		입력..
+//		문자 입력: a 
+//
+//		출력..
+//		소문자 'a'의 대문자는 'A'입니다.
+		
+		char engSmall;
+		String engBig;
+		char result;
+		
+		Scanner reader = new Scanner(System.in);
+		String input = " ";
+		
+		System.out.print("문자 입력: ");
+		input = reader.next();
+
+		int num = Integer.parseInt(input);
+		int num2 = Integer.parseInt(engBig);
+		
+		engBig = num - 32;
+        
+        System.out.printf("소문자'%c\'의 대문자는 \'%c\'입니다.", input, engBig);
+		
+        
+        //소문자 -32 = 대문자 > 이 코드 작성만 하면 됨
+	}//main
 
 }
 
 ```
+
